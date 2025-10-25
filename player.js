@@ -11,8 +11,8 @@ const Player = (() => {
     const EMBED_SERVERS = [
         {
             name: "VidSrc",
-            movieUrl: "https://vidsrc.xyz/embed/movie/{tmdb_id}",
-            tvUrl: "https://vidsrc.xyz/embed/tv/{tmdb_id}/{season}/{episode}"
+            movieUrl: "https://vidsrc.ru/embed/movie/{tmdb_id}",
+            tvUrl: "https://vidsrc.ru/embed/tv/{tmdb_id}/{season}/{episode}"
         },
         {
             name: "VidSrc.icu",
