@@ -1,1 +1,1 @@
-# Equanta
+# Equnta
