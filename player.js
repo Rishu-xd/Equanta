@@ -12,11 +12,7 @@ const Player = (() => {
          {name: "Indiraembed",
             movieUrl:"https://indraembed.netlify.app/movie/{tmdb_id}",
 tvUrl:"https://indraembed.netlify.app/tv/{tmdb_id}/{season}/{episode}"},
-        {
-            name: "VidSrc",
-            movieUrl: "https://vidsrc.ru/embed/movie/{tmdb_id}",
-            tvUrl: "https://vidsrc.ru/embed/tv/{tmdb_id}/{season}/{episode}"
-        },
+        
         {
             name: "VidSrc.icu",
             movieUrl: "https://vidsrc.icu/embed/movie/{tmdb_id}",
