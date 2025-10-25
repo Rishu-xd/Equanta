@@ -53,7 +53,7 @@ const Modal = (() => {
             return;
         }
         
-        renderModalContent(details, itemType);
+        renderModalContent(details, itemType, itemId);
         elements.modal?.classList.add('active');
         document.body.style.overflow = 'hidden';
     }
@@ -64,12 +64,17 @@ const Modal = (() => {
     function close() {
         elements.modal?.classList.remove('active');
         document.body.style.overflow = '';
+        
+        // Destroy player when modal closes
+        if (typeof Player !== 'undefined') {
+            Player.destroy();
+        }
     }
     
     /**
      * Render modal content
      */
-    function renderModalContent(details, itemType) {
+    function renderModalContent(details, itemType, itemId) {
         const backdropURL = API.getImageURL(details.backdrop_path, 'backdrop');
         const posterURL = API.getImageURL(details.poster_path, 'poster');
         const title = details.title || details.name;
@@ -95,13 +100,30 @@ const Modal = (() => {
             details.similar.results.slice(0, 6) : [];
         
         const modalHTML = `
+            <!-- Player Section (hidden initially, shown on Play click) -->
+            <div id="player-section" class="player-section" style="display:none;">
+                <div id="player-container" class="player-container">
+                    <iframe id="player-iframe" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture" frameborder="0"></iframe>
+                </div>
+                <div class="server-selector">
+                    <label for="server-dropdown">Server:</label>
+                    <select id="server-dropdown" class="server-dropdown">
+                        <!-- Populated by player.js -->
+                    </select>
+                </div>
+                <!-- For TV Shows: Season/Episode selector -->
+                <div id="episode-selector" class="episode-selector" style="display:none;">
+                    <!-- Populated by player.js for TV shows -->
+                </div>
+            </div>
+            
             <div class="modal-hero" style="background-image: url(${backdropURL || ''});">
                 <div class="modal-hero-fade"></div>
                 <div class="modal-hero-content">
                     <h1 class="modal-title">${title}</h1>
                     ${tagline ? `<p style="font-style: italic; color: #e5e5e5; margin-bottom: 15px;">${tagline}</p>` : ''}
                     <div class="modal-buttons">
-                        <button class="btn btn-play">
+                        <button class="btn btn-play" id="modal-play-btn" data-id="${itemId}" data-type="${itemType}">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M8 5v14l11-7z"/>
                             </svg>
@@ -142,6 +164,27 @@ const Modal = (() => {
         `;
         
         elements.modalBody.innerHTML = modalHTML;
+        
+        // Attach Play button listener
+        const playBtn = document.getElementById('modal-play-btn');
+        if (playBtn) {
+            playBtn.addEventListener('click', () => {
+                const id = playBtn.dataset.id;
+                const type = playBtn.dataset.type;
+                
+                if (typeof Player !== 'undefined') {
+                    Player.init(id, type);
+                    
+                    // Scroll to player
+                    setTimeout(() => {
+                        const playerSection = document.getElementById('player-section');
+                        if (playerSection) {
+                            playerSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    }, 100);
+                }
+            });
+        }
     }
     
     /**
