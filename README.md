@@ -43,7 +43,7 @@ If you’d like to clone and run *Equanta* locally:
 
 ```bash
 # Clone the repository
-git clone https://github.com/<your-username>/equanta.git
+git clone https://github.com/Rishu-xd/equanta.git
 
 # Open the project folder
 cd equanta
