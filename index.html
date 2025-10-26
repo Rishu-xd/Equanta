@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="manifest" href="manifest.json">
+<link rel="icon" href="/icons/icon.png" type="image/png">
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
 <meta name="theme-color" content="#00ff66">
     <title>Equanta - Movies &amp; TV Shows</title>
     <link rel="stylesheet" href="style.css">
@@ -109,6 +111,15 @@ if ("serviceWorker" in navigator) {
       .then(reg => console.log("Service Worker registered", reg))
       .catch(err => console.error("Service Worker failed:", err));
   });
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Equanta",
+  "url": "https://equanta.run.place",
+  "logo": "https://equanta.run.place/icons/icon512.png"
 }
 </script>
 
