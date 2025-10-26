@@ -1765,3 +1765,55 @@ body {
     text-align: center;
     padding: 10px;
 }
+
+
+/* Layout: make room so fixed footer doesn't overlap content */
+html, body { height: 100%; }
+body { padding-bottom: 72px; } /* match footer height for safety */
+
+/* Footer styles */
+.app-footer {
+  position: fixed;       /* always at bottom */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  background: #000;      /* black theme */
+  color: #bbb;
+  border-top: 1px solid #1f1f1f;
+  width: 100%;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+}
+
+.app-footer .footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 8px 16px;     /* compact spacing */
+  text-align: center;    /* center align */
+}
+
+.app-footer .footer-line {
+  margin: 2px 0;
+  font-size: 12px;       /* small text */
+  line-height: 1.4;
+}
+
+.app-footer .footer-link {
+  color: #b3b3b3;
+  text-decoration: none;
+  transition: color .2s ease;
+}
+
+.app-footer .footer-link:hover,
+.app-footer .footer-link:focus {
+  color: #e5e5e5;
+  text-decoration: underline;
+}
+
+.app-footer .sep {
+  display: inline-block;
+  margin: 0 8px;
+  color: #444;
+}
