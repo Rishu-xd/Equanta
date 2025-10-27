@@ -56,11 +56,6 @@ const Modal = (() => {
         renderModalContent(details, itemType, itemId);
         elements.modal?.classList.add('active');
         document.body.style.overflow = 'hidden';
-        
-        // Hook for 1DM button (Android only)
-        if (typeof OneDM !== 'undefined') {
-            OneDM.onModalOpen(details);
-        }
     }
     
     /**
@@ -73,11 +68,6 @@ const Modal = (() => {
         // Destroy player when modal closes
         if (typeof Player !== 'undefined') {
             Player.destroy();
-        }
-        
-        // Cleanup 1DM button
-        if (typeof OneDM !== 'undefined') {
-            OneDM.cleanup();
         }
     }
     
@@ -120,6 +110,15 @@ const Modal = (() => {
                     <select id="server-dropdown" class="server-dropdown">
                         <!-- Populated by player.js -->
                     </select>
+                </div>
+                <!-- Download Button (Dummy) -->
+                <div class="download-section">
+                    <button class="btn btn-download" id="dummy-download-btn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                        </svg>
+                        Download
+                    </button>
                 </div>
                 <!-- For TV Shows: Season/Episode selector -->
                 <div id="episode-selector" class="episode-selector" style="display:none;">
@@ -193,6 +192,14 @@ const Modal = (() => {
                         }
                     }, 100);
                 }
+            });
+        }
+        
+        // Attach Download button listener (dummy)
+        const downloadBtn = document.getElementById('dummy-download-btn');
+        if (downloadBtn) {
+            downloadBtn.addEventListener('click', () => {
+                alert('Download feature coming soon!');
             });
         }
     }

@@ -241,6 +241,11 @@ const Player = (() => {
         if (!elements.episodeSelector || seasonsData.length === 0) return;
 
         elements.episodeSelector.style.display = 'block';
+        
+        // Attach episode click listeners after rendering
+        setTimeout(() => {
+            attachEpisodeClickListeners();
+        }, 100);
 
         const html = `
             <div class="season-selector">
@@ -265,8 +270,11 @@ const Player = (() => {
             updateEpisodesDisplay(seasonIndex);
         });
 
-        // Set initial season
+        // Set initial season and episode
         currentSeason = seasonsData[0]?.season_number || 1;
+        if (seasonsData[0] && seasonsData[0].episodes && seasonsData[0].episodes.length > 0) {
+            currentEpisode = seasonsData[0].episodes[0].episode_number || 1;
+        }
     }
 
     /**

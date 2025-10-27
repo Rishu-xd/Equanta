@@ -192,6 +192,6 @@
     });
     
     console.log('💡 Tip: API key is loaded from Equanta GitHub repo. All features enabled!');
-    console.log('📱 Android users: Download button will appear when playing videos!');
+    console.log('📥 Download button available in player (coming soon feature)');
     console.log('🌍 Content is customized based on your region!');
 })();
