@@ -9,10 +9,11 @@ const Player = (() => {
     // Easy to modify - add or remove servers here
     // ========================================
     const EMBED_SERVERS = [
-         {name: "Indiraembed",
-            movieUrl:"https://indraembed.netlify.app/movie/{tmdb_id}",
-tvUrl:"https://indraembed.netlify.app/tv/{tmdb_id}/{season}/{episode}"},
-        
+        {
+            name: "VidSrc",
+            movieUrl: "https://vidsrc.xyz/embed/movie/{tmdb_id}",
+            tvUrl: "https://vidsrc.xyz/embed/tv/{tmdb_id}/{season}/{episode}"
+        },
         {
             name: "VidSrc.icu",
             movieUrl: "https://vidsrc.icu/embed/movie/{tmdb_id}",
@@ -229,18 +230,8 @@ tvUrl:"https://indraembed.netlify.app/tv/{tmdb_id}/{season}/{episode}"},
      * Fetch season details from TMDB
      */
     async function fetchSeasonDetails(tvId, seasonNumber) {
-        try {
-            const API_KEY = 'YOUR_API_KEY'; // Uses same key from api.js
-            const response = await fetch(
-                `https://api.themoviedb.org/3/tv/${tvId}/season/${seasonNumber}?api_key=${API_KEY}`
-            );
-            
-            if (!response.ok) return null;
-            return await response.json();
-        } catch (error) {
-            console.error(`Error fetching season ${seasonNumber}:`, error);
-            return null;
-        }
+        // Use the API module's function instead
+        return await API.getTVSeasonDetails(tvId, seasonNumber);
     }
 
     /**
@@ -359,6 +350,13 @@ tvUrl:"https://indraembed.netlify.app/tv/{tmdb_id}/{season}/{episode}"},
             });
         });
     }
+    
+    /**
+     * Get current media URL (for 1DM integration)
+     */
+    function getCurrentMediaUrl() {
+        return elements.playerIframe?.src || null;
+    }
 
     /**
      * Hide episode selector
@@ -415,6 +413,7 @@ tvUrl:"https://indraembed.netlify.app/tv/{tmdb_id}/{season}/{episode}"},
         loadMovie,
         loadTVEpisode,
         switchServer,
-        destroy
+        destroy,
+        getCurrentMediaUrl
     };
 })();

@@ -164,7 +164,8 @@ const UI = (() => {
                 </div>
             </div>
         `;
-         container.insertAdjacentHTML('beforeend', rowHTML);
+        
+        container.insertAdjacentHTML('beforeend', rowHTML);
         
         // Add click listeners to cards
         const cards = container.querySelectorAll('.movie-card');

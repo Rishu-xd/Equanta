@@ -3,15 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="manifest" href="manifest.json">
-<link rel="icon" href="/icons/icon192.png" type="image/png">
-<link rel="icon" href="/favicon.ico" type="image/x-icon">
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/site.webmanifest">
-<meta name="theme-color" content="#00ff66">
-    <title>Equanta - Movies &amp; TV Shows</title>
+    <title>Netflix Clone - Movies &amp; TV Shows</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -19,7 +11,7 @@
     <header class="header" id="header">
         <div class="header-content">
             <div class="header-left">
-                <div class="logo">Equanta</div>
+                <div class="logo">NETFLIX</div>
                 <nav class="nav-links">
                     <a href="#" class="nav-link active" data-section="home">Home</a>
                     <a href="#" class="nav-link" data-section="movies">Movies</a>
@@ -83,7 +75,6 @@
         </div>
     </main>
 
-
     <!-- Loading Spinner -->
     <div class="loading-spinner" id="loadingSpinner">
         <div class="spinner"></div>
@@ -103,27 +94,20 @@
                 <!-- Modal content will be dynamically inserted -->
             </div>
         </div>
-
     </div>
-<script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("/service-worker.js")
-      .then(reg => console.log("Service Worker registered", reg))
-      .catch(err => console.error("Service Worker failed:", err));
-  });
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "Equanta",
-  "url": "https://equanta.run.place",
-  "logo": "https://equanta.run.place/icons/icon512.png"
-}
-</script>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <div class="footer-inner">
+            <p class="footer-line">
+                <a href="#privacy" target="_blank">Privacy Policy</a> • 
+                <a href="#terms" target="_blank">Terms &amp; Conditions</a> • 
+                <a href="https://github.com/Rishu-xd/Equanta" target="_blank">Source Code</a> • 
+                <a href="#contact" target="_blank">Contact</a>
+            </p>
+            <p class="footer-line">&copy; 2025 Equanta</p>
+        </div>
+    </footer>
 
     <!-- JavaScript Files -->
     <script src="api.js"></script>
@@ -131,21 +115,7 @@ if ("serviceWorker" in navigator) {
     <script src="player.js"></script>
     <script src="modal.js"></script>
     <script src="search.js"></script>
+    <script src="oneDm.js"></script>
     <script src="main.js"></script>
-    <script sec="onedm.js"></script>
-<!-- Sticky Footer -->
-<footer class="app-footer" role="contentinfo" aria-label="Site footer">
-  <div class="footer-inner">
-    <p class="footer-line">
-      <a href="/privacy policy" class="footer-link">Privacy Policy</a>
-      <span class="sep">•</span>
-      <a href="/terms" class="footer-link">Terms & Conditions</a>
-      <span class="sep">•</span>
-      <a href="https://github.com/Rishu-xd/Equanta.git" class="footer-link" rel="noopener">Source Code</a>
-      <span class="sep">•</span>
-    
-    <p class="footer-line">© 2025 Equanta</p>
-  </div>
-</footer>
 </body>
 </html>

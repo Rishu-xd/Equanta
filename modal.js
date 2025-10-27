@@ -56,6 +56,11 @@ const Modal = (() => {
         renderModalContent(details, itemType, itemId);
         elements.modal?.classList.add('active');
         document.body.style.overflow = 'hidden';
+        
+        // Hook for 1DM button (Android only)
+        if (typeof OneDM !== 'undefined') {
+            OneDM.onModalOpen(details);
+        }
     }
     
     /**
@@ -68,6 +73,11 @@ const Modal = (() => {
         // Destroy player when modal closes
         if (typeof Player !== 'undefined') {
             Player.destroy();
+        }
+        
+        // Cleanup 1DM button
+        if (typeof OneDM !== 'undefined') {
+            OneDM.cleanup();
         }
     }
     

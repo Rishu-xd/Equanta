@@ -5,7 +5,7 @@
 
 const API = (() => {
     // TMDB API Configuration
-    const API_KEY = '1c9a2f152e729aecfec1c47b46aa9607'; // User needs to replace this
+    const API_KEY = '4ec93c7a7f3e73cc8553919a8d8e5c49'; // From Equanta GitHub repo
     const BASE_URL = 'https://api.themoviedb.org/3';
     const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/';
     
@@ -53,7 +53,6 @@ const API = (() => {
     async function getTrendingTV() {
         return await fetchFromAPI(`/trending/tv/week?api_key=${API_KEY}`);
     }
-
     
     /**
      * Fetch popular movies
@@ -134,6 +133,68 @@ const API = (() => {
         return await fetchFromAPI(`/genre/tv/list?api_key=${API_KEY}`);
     }
     
+    /**
+     * Detect user's region using IP geolocation
+     */
+    async function detectUserRegion() {
+        try {
+            const response = await fetch('https://ipapi.co/json/');
+            if (!response.ok) throw new Error('Region detection failed');
+            const data = await response.json();
+            return data.country_code || 'US';
+        } catch (error) {
+            console.error('Region detection error:', error);
+            return 'US'; // Default fallback
+        }
+    }
+    
+    /**
+     * Get trending content in India
+     */
+    async function getTrendingInIndiaMovies(page = 1) {
+        return await fetchFromAPI(`/discover/movie?api_key=${API_KEY}&region=IN&sort_by=popularity.desc&watch_region=IN&with_watch_monetization_types=flatrate&page=${page}`);
+    }
+    
+    async function getTrendingInIndiaTV(page = 1) {
+        return await fetchFromAPI(`/discover/tv?api_key=${API_KEY}&region=IN&sort_by=popularity.desc&watch_region=IN&with_watch_monetization_types=flatrate&page=${page}`);
+    }
+    
+    /**
+     * Get Bollywood content
+     */
+    async function getBollywoodMovies(page = 1) {
+        return await fetchFromAPI(`/discover/movie?api_key=${API_KEY}&with_original_language=hi&sort_by=popularity.desc&page=${page}`);
+    }
+    
+    async function getBollywoodTV(page = 1) {
+        return await fetchFromAPI(`/discover/tv?api_key=${API_KEY}&with_original_language=hi&sort_by=popularity.desc&page=${page}`);
+    }
+    
+    /**
+     * Get Hollywood blockbusters
+     */
+    async function getHollywoodBlockbusters(page = 1) {
+        return await fetchFromAPI(`/discover/movie?api_key=${API_KEY}&with_original_language=en&sort_by=revenue.desc&page=${page}`);
+    }
+    
+    /**
+     * Get Anime content
+     */
+    async function getAnimeMovies(page = 1) {
+        return await fetchFromAPI(`/discover/movie?api_key=${API_KEY}&with_genres=16&with_original_language=ja&sort_by=popularity.desc&page=${page}`);
+    }
+    
+    async function getAnimeSeries(page = 1) {
+        return await fetchFromAPI(`/discover/tv?api_key=${API_KEY}&with_genres=16&with_original_language=ja&sort_by=popularity.desc&page=${page}`);
+    }
+    
+    /**
+     * Get TV season details (for episodes)
+     */
+    async function getTVSeasonDetails(tvId, seasonNumber) {
+        return await fetchFromAPI(`/tv/${tvId}/season/${seasonNumber}?api_key=${API_KEY}`);
+    }
+    
     // Public API
     return {
         getImageURL,
@@ -149,6 +210,16 @@ const API = (() => {
         getMovieDetails,
         getTVDetails,
         getMovieGenres,
-        getTVGenres
+        getTVGenres,
+        detectUserRegion,
+        getTrendingInIndiaMovies,
+        getTrendingInIndiaTV,
+        getBollywoodMovies,
+        getBollywoodTV,
+        getHollywoodBlockbusters,
+        getAnimeMovies,
+        getAnimeSeries,
+        getTVSeasonDetails,
+        API_KEY
     };
 })();

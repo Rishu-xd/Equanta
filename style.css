@@ -784,14 +784,7 @@ body {
 .logo {
     font-size: 2rem;
     font-weight: bold;
-    color: #fff;
-    letter-spacing: 2px;
-    cursor: pointer;
-}
-.logo span{
-  font-size: 2rem;
-    font-weight: bold;
-    color: #00FF7F;
+    color: #E50914;
     letter-spacing: 2px;
     cursor: pointer;
 }
@@ -1763,47 +1756,99 @@ body {
     color: #808080;
     font-size: 0.9rem;
     text-align: center;
-    padding: 0px;
+    padding: 10px;
 }
 
-
-
+/* Footer Styles */
 .app-footer {
-  position: static;       /* default; allows natural placement at page end */
-  background: #000;
-  color: #bbb;
-  border-top: 1px solid #1f1f1f;
-  width: 100%;
-  min-height: 56px;
-  display: flex;
-  align-items: center;
+    background-color: #000000;
+    color: #808080;
+    padding: 40px 4%;
+    margin-top: 60px;
+    border-top: 1px solid #2a2a2a;
 }
 
-.app-footer .footer-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 12px 16px;
-  text-align: center;
+.footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
 }
 
-.app-footer .footer-line {
-  margin: 2px 0;
-  font-size: 12px;
-  line-height: 1.4;
+.footer-line {
+    margin: 15px 0;
+    font-size: 0.9rem;
+    line-height: 1.6;
 }
 
-.app-footer .footer-link {
-  color: #b3b3b3;
-  text-decoration: none;
-  transition: color .2s ease;
+.footer-line a {
+    color: #808080;
+    text-decoration: none;
+    transition: color 0.3s ease;
 }
-.app-footer .footer-link:hover,
-.app-footer .footer-link:focus {
-  color: #e5e5e5;
-  text-decoration: underline;
+
+.footer-line a:hover {
+    color: #E50914;
 }
-.app-footer .sep {
-  display: inline-block;
-  margin: 0 8px;
-  color: #444;
+
+/* 1DM Download Button Styles */
+.onedm-download-section {
+    background-color: #181818;
+    padding: 20px;
+    border-top: 1px solid #2a2a2a;
+}
+
+.btn-download {
+    background-color: #E50914;
+    color: #ffffff;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-download:hover {
+    background-color: #b8070f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(229, 9, 20, 0.4);
+}
+
+.btn-download:active {
+    transform: translateY(0);
+}
+
+.onedm-note {
+    margin-top: 12px;
+    font-size: 0.85rem;
+    color: #808080;
+    text-align: center;
+    line-height: 1.4;
+}
+
+/* Responsive Footer */
+@media (max-width: 640px) {
+    .app-footer {
+        padding: 30px 4%;
+        margin-top: 40px;
+    }
+    
+    .footer-line {
+        font-size: 0.8rem;
+    }
+    
+    .btn-download {
+        padding: 12px 20px;
+        font-size: 0.95rem;
+    }
+    
+    .onedm-download-section {
+        padding: 15px;
+    }
 }
