@@ -164,7 +164,8 @@ const UI = (() => {
                 </div>
             </div>
         `;
-        
+        addRow('Trending in India — Movies', () => API.getTrendingInIndiaMovies(1));
+addRow('Trending in India — TV', () => API.getTrendingInIndiaTV(1));
         container.insertAdjacentHTML('beforeend', rowHTML);
         
         // Add click listeners to cards
