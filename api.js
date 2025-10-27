@@ -53,6 +53,34 @@ const API = (() => {
     async function getTrendingTV() {
         return await fetchFromAPI(`/trending/tv/week?api_key=${API_KEY}`);
     }
+// Trending proxy for India via Discover (Movies)
+API.getTrendingInIndiaMovies = async function(page = 1) {
+  const params = new URLSearchParams({
+    api_key: API_KEY,
+    region: 'IN',
+    sort_by: 'popularity.desc',
+    // 2|3 biases to theatrical releases; remove if you want broader catalog
+    with_release_type: '2|3',
+    watch_region: 'IN',
+    with_watch_monetization_types: 'flatrate',
+    language: 'en-IN',
+    page: String(page)
+  });
+  return fetchJson(`${BASE_URL}/discover/movie?${params.toString()}`);
+};
+
+// Trending proxy for India via Discover (TV)
+API.getTrendingInIndiaTV = async function(page = 1) {
+  const params = new URLSearchParams({
+    api_key: API_KEY,
+    sort_by: 'popularity.desc',
+    watch_region: 'IN',
+    with_watch_monetization_types: 'flatrate',
+    language: 'en-IN',
+    page: String(page)
+  });
+  return fetchJson(`${BASE_URL}/discover/tv?${params.toString()}`);
+};
     
     /**
      * Fetch popular movies
