@@ -1,154 +1,109 @@
-/* main.js — FORCE RENDER HOMEPAGE ROWS ON LOAD (no search required) */
-/* Assumes these globals exist: API, UI, Player, Modal, Search */
-/* Keeps your existing region detection + India trending logic */
+/**
+ * Main Application Entry Point
+ * Initializes the Netflix clone and renders homepage
+ */
 
-(async function initApp() {
-  try {
-    // 1) Bootstrap core UI and handlers
-    wireGlobalHandlers();
+const App = {
+  userRegion: 'US',
 
-    // 2) Detect region early (non-blocking fallback to US)
-    const region = await safeDetectRegion();
-
-    // 3) Render hero first for fast perceived load
-    await renderHero(region);
-
-    // 4) Immediately render all homepage rows (no search dependency)
-    await renderHomeRows(region);
-
-    // 5) Initialize search (but do not block homepage rendering)
-    initSearch();
-
-  } catch (err) {
-    console.error('[initApp] failed', err);
-    UI.showToast('Failed to load homepage. Please reload.');
-  }
-})();
-
-/* ————— helpers ————— */
-
-function wireGlobalHandlers() {
-  // Example: modal close, esc key, history, etc. Keep your existing bindings here if any.
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && typeof Modal?.close === 'function') {
-      Modal.close();
-    }
-  });
-}
-
-async function safeDetectRegion() {
-  try {
-    if (typeof API?.detectUserRegion === 'function') {
-      const code = await API.detectUserRegion();
-      return code || 'US';
-    }
-  } catch {}
-  return 'US';
-}
-
-async function renderHero(region) {
-  try {
-    // Prefer India trending hero if in IN; otherwise global trending movies
-    let heroList;
-    if (region === 'IN' && typeof API?.getTrendingInIndiaMovies === 'function') {
-      heroList = await API.getTrendingInIndiaMovies(1);
-    } else if (typeof API?.getTrendingMovies === 'function') {
-      heroList = await API.getTrendingMovies(1); // your existing global trending
-    } else if (typeof API?.getPopularMovies === 'function') {
-      heroList = await API.getPopularMovies(1);
-    }
-
-    const items = heroList?.results || [];
-    if (items.length) {
-      await UI.renderHero(items); // uses your existing hero rotator
-    } else {
-      UI.renderHeroFallback();
-    }
-  } catch (e) {
-    console.warn('[renderHero] fallback', e);
-    UI.renderHeroFallback();
-  }
-}
-
-async function renderHomeRows(region) {
-  // Build the homepage shelves; if region is IN, include India trending
-  const rows = [];
-
-  if (region === 'IN' && typeof API?.getTrendingInIndiaMovies === 'function') {
-    rows.push({
-      title: 'Trending in India — Movies',
-      fetcher: () => API.getTrendingInIndiaMovies(1),
-    });
-  } else if (typeof API?.getTrendingMovies === 'function') {
-    rows.push({
-      title: 'Trending Now — Movies',
-      fetcher: () => API.getTrendingMovies(1),
-    });
-  }
-
-  if (region === 'IN' && typeof API?.getTrendingInIndiaTV === 'function') {
-    rows.push({
-      title: 'Trending in India — TV',
-      fetcher: () => API.getTrendingInIndiaTV(1),
-    });
-  } else if (typeof API?.getTrendingTV === 'function') {
-    rows.push({
-      title: 'Trending Now — TV',
-      fetcher: () => API.getTrendingTV(1),
-    });
-  }
-
-  // Core global rows (keep your existing order as needed)
-  if (typeof API?.getPopularMovies === 'function') {
-    rows.push({ title: 'Popular Movies', fetcher: () => API.getPopularMovies(1) });
-  }
-  if (typeof API?.getPopularTV === 'function') {
-    rows.push({ title: 'Popular TV Shows', fetcher: () => API.getPopularTV(1) });
-  }
-  if (typeof API?.getTopRatedMovies === 'function') {
-    rows.push({ title: 'Top Rated Movies', fetcher: () => API.getTopRatedMovies(1) });
-  }
-
-  // Thematic shelves (Bollywood, Hollywood, Anime) if available in API.js
-  if (typeof API?.getBollywoodMovies === 'function') {
-    rows.push({ title: 'Bollywood Movies', fetcher: () => API.getBollywoodMovies(1) });
-  }
-  if (typeof API?.getBollywoodTV === 'function') {
-    rows.push({ title: 'Bollywood TV', fetcher: () => API.getBollywoodTV(1) });
-  }
-  if (typeof API?.getHollywoodBlockbusters === 'function') {
-    rows.push({ title: 'Hollywood Blockbusters', fetcher: () => API.getHollywoodBlockbusters(1) });
-  }
-  if (typeof API?.getAnimeSeries === 'function') {
-    rows.push({ title: 'Anime Series', fetcher: () => API.getAnimeSeries(1) });
-  }
-  if (typeof API?.getAnimeMovies === 'function') {
-    rows.push({ title: 'Anime Movies', fetcher: () => API.getAnimeMovies(1) });
-  }
-
-  // Genre rows if you have them
-  if (typeof API?.discoverByGenre === 'function') {
-    rows.push({ title: 'Action', fetcher: () => API.discoverByGenre(28, 1) });
-    rows.push({ title: 'Comedy', fetcher: () => API.discoverByGenre(35, 1) });
-    rows.push({ title: 'Horror', fetcher: () => API.discoverByGenre(27, 1) });
-  }
-
-  // Render sequentially to avoid hammering API at once; show skeletons per row
-  for (const row of rows) {
+  async init() {
     try {
-      UI.renderRowSkeleton(row.title);
-      const data = await row.fetcher();
-      const items = data?.results || [];
-      await UI.renderRow(row.title, items);
-    } catch (e) {
-      console.warn(`[renderHomeRows] failed row ${row.title}`, e);
-      UI.renderRowError(row.title, 'Failed to load');
-    }
-  }
-}
+      console.log('🚀 Initializing Equanta...');
+      
+      // Detect user region first
+      this.userRegion = await this.detectRegion();
+      console.log('📍 User region:', this.userRegion);
 
-function initSearch() {
-  if (typeof Search?.init === 'function') {
-    Search.init(); // debounced search; must not block homepage rows
+      // Initialize search
+      if (typeof Search !== 'undefined' && Search.init) {
+        Search.init();
+      }
+
+      // Render hero banner
+      await this.renderHero();
+
+      // Render all content rows immediately
+      await this.renderAllRows();
+
+      console.log('✅ Equanta loaded successfully');
+    } catch (error) {
+      console.error('❌ Initialization failed:', error);
+    }
+  },
+
+  async detectRegion() {
+    try {
+      const response = await fetch('https://ipapi.co/json/');
+      const data = await response.json();
+      return data.country_code || 'US';
+    } catch (error) {
+      console.warn('Region detection failed, defaulting to US');
+      return 'US';
+    }
+  },
+
+  async renderHero() {
+    try {
+      const data = await API.getTrendingMovies(1);
+      const movies = data.results.slice(0, 5);
+      UI.renderHero(movies);
+    } catch (error) {
+      console.error('Hero render failed:', error);
+    }
+  },
+
+  async renderAllRows() {
+    const rows = this.getRowsConfig();
+
+    for (const row of rows) {
+      try {
+        const data = await row.fetcher();
+        if (data && data.results && data.results.length > 0) {
+          UI.renderRow(row.title, data.results, row.type || 'movie');
+        }
+      } catch (error) {
+        console.error(`Failed to load ${row.title}:`, error);
+      }
+    }
+  },
+
+  getRowsConfig() {
+    const rows = [];
+
+    // India-specific trending
+    if (this.userRegion === 'IN') {
+      rows.push(
+        { title: 'Trending in India - Movies', fetcher: () => API.getTrendingInIndiaMovies(1), type: 'movie' },
+        { title: 'Trending in India - TV', fetcher: () => API.getTrendingInIndiaTV(1), type: 'tv' }
+      );
+    } else {
+      rows.push(
+        { title: 'Trending Now', fetcher: () => API.getTrendingMovies(1), type: 'movie' }
+      );
+    }
+
+    // Core rows
+    rows.push(
+      { title: 'Popular Movies', fetcher: () => API.getPopularMovies(1), type: 'movie' },
+      { title: 'Popular TV Shows', fetcher: () => API.getPopularTV(1), type: 'tv' },
+      { title: 'Top Rated Movies', fetcher: () => API.getTopRatedMovies(1), type: 'movie' },
+      { title: 'Bollywood Movies', fetcher: () => API.getBollywoodMovies(1), type: 'movie' },
+      { title: 'Bollywood TV Shows', fetcher: () => API.getBollywoodTV(1), type: 'tv' },
+      { title: 'Hollywood Blockbusters', fetcher: () => API.getHollywoodBlockbusters(1), type: 'movie' },
+      { title: 'Anime Series', fetcher: () => API.getAnimeSeries(1), type: 'tv' },
+      { title: 'Anime Movies', fetcher: () => API.getAnimeMovies(1), type: 'movie' },
+      { title: 'Action Movies', fetcher: () => API.getMoviesByGenre(28, 1), type: 'movie' },
+      { title: 'Comedy Movies', fetcher: () => API.getMoviesByGenre(35, 1), type: 'movie' },
+      { title: 'Horror Movies', fetcher: () => API.getMoviesByGenre(27, 1), type: 'movie' }
+    );
+
+    return rows;
   }
+};
+
+// Initialize app when DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => App.init());
+} else {
+  App.init();
 }
