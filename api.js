@@ -5,7 +5,7 @@
 
 const API = (() => {
     // TMDB API Configuration
-    const API_KEY = '1c9a2f152e729aecfec1c47b46aa9607'; // From Equanta GitHub repo
+    const API_KEY = '4ec93c7a7f3e73cc8553919a8d8e5c49'; // From Equanta GitHub repo
     const BASE_URL = 'https://api.themoviedb.org/3';
     const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/';
     
