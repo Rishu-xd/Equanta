@@ -92,6 +92,100 @@ const Modal = (() => {
         const overview = details.overview || 'No overview available.';
         const rating = details.vote_average ? details.vote_average.toFixed(1) : 'N/A';
         const releaseDate = details.release_date || details.first_air_date || 'Unknown';
+/**
+ * Modal Module
+ * Handles movie/TV show detail modal functionality
+ */
+
+const Modal = (() => {
+    // Cache DOM elements
+    const elements = {
+        modal: null,
+        modalOverlay: null,
+        modalClose: null,
+        modalBody: null
+    };
+    
+    /**
+     * Initialize modal
+     */
+    function init() {
+        elements.modal = document.getElementById('detailModal');
+        elements.modalOverlay = document.getElementById('modalOverlay');
+        elements.modalClose = document.getElementById('modalClose');
+        elements.modalBody = document.getElementById('modalBody');
+        
+        // Add close listeners
+        elements.modalClose?.addEventListener('click', close);
+        elements.modalOverlay?.addEventListener('click', close);
+        
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && elements.modal?.classList.contains('active')) {
+                close();
+            }
+        });
+    }
+    
+    /**
+     * Open modal with item details
+     */
+    async function open(itemId, itemType) {
+        if (!itemId || !itemType) return;
+        
+        UI.showLoading();
+        
+        // Fetch details based on type
+        const details = itemType === 'movie' ? 
+            await API.getMovieDetails(itemId) : 
+            await API.getTVDetails(itemId);
+        
+        UI.hideLoading();
+        
+        if (!details) {
+            alert('Failed to load details. Please try again.');
+            return;
+        }
+        
+        renderModalContent(details, itemType, itemId);
+        elements.modal?.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        // Hook for 1DM button (Android only)
+        if (typeof OneDM !== 'undefined') {
+            OneDM.onModalOpen(details);
+        }
+    }
+    
+    /**
+     * Close modal
+     */
+    function close() {
+        elements.modal?.classList.remove('active');
+        document.body.style.overflow = '';
+        
+        // Destroy player when modal closes
+        if (typeof Player !== 'undefined') {
+            Player.destroy();
+        }
+        
+        // Cleanup 1DM button
+        if (typeof OneDM !== 'undefined') {
+            OneDM.cleanup();
+        }
+    }
+    
+    /**
+     * Render modal content
+     */
+    function renderModalContent(details, itemType, itemId) {
+        const backdropURL = API.getImageURL(details.backdrop_path, 'backdrop');
+        const posterURL = API.getImageURL(details.poster_path, 'poster');
+        const title = details.title || details.name;
+        const tagline = details.tagline || '';
+        const overview = details.overview || 'No overview available.';
+        const rating = details.vote_average ? details.vote_average.toFixed(1) : 'N/A';
+        const releaseDate = details.release_date || details.first_air_date || 'Unknown';
         const runtime = itemType === 'movie' ? 
             (details.runtime ? `${details.runtime} min` : 'N/A') : 
             (details.episode_run_time && details.episode_run_time.length > 0 ? `${details.episode_run_time[0]} min/ep` : 'N/A');
