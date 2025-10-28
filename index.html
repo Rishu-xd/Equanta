@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Equanta - Stream Movies & TV Shows</title>
-    <link rel="stylesheet" href="main.css">
-    <link rel="stylesheet" href="responsive.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/responsive.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -19,168 +19,153 @@
                 <input type="text" id="searchInput" placeholder="Search movies, series, anime...">
                 <div id="searchDropdown" class="search-dropdown"></div>
             </div>
-            <div class="nav-menu">
-                <a href="#home" class="nav-link active" data-section="home">Home</a>
-                <a href="#search" class="nav-link" data-section="search">Search</a>
-            </div>
         </div>
     </nav>
 
     <!-- Main Content -->
     <main id="mainContent">
-        <!-- Home Section -->
-        <section id="homeSection" class="section active">
-            <!-- Hero Banner -->
-            <div id="heroBanner" class="hero-banner"></div>
+        <!-- Hero Banner -->
+        <div id="heroBanner" class="hero-banner"></div>
 
-            <!-- Trending Movies -->
-            <div class="content-section">
-                <div class="section-header">
-                    <h2 class="section-title">Trending Movies</h2>
-                </div>
-                <div class="slider-container">
-                    <button class="slider-btn slider-btn-left" data-slider="trendingMovies">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="15 18 9 12 15 6"></polyline>
-                        </svg>
-                    </button>
-                    <div id="trendingMovies" class="content-slider"></div>
-                    <button class="slider-btn slider-btn-right" data-slider="trendingMovies">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="9 18 15 12 9 6"></polyline>
-                        </svg>
-                    </button>
-                </div>
+        <!-- Trending Movies -->
+        <div class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">Trending Movies</h2>
             </div>
+            <div class="slider-container">
+                <button class="slider-btn slider-btn-left" data-slider="trendingMovies">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <div id="trendingMovies" class="content-slider"></div>
+                <button class="slider-btn slider-btn-right" data-slider="trendingMovies">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </div>
 
-            <!-- Trending TV Series -->
-            <div class="content-section">
-                <div class="section-header">
-                    <h2 class="section-title">Trending TV Series</h2>
-                </div>
-                <div class="slider-container">
-                    <button class="slider-btn slider-btn-left" data-slider="trendingSeries">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="15 18 9 12 15 6"></polyline>
-                        </svg>
-                    </button>
-                    <div id="trendingSeries" class="content-slider"></div>
-                    <button class="slider-btn slider-btn-right" data-slider="trendingSeries">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="9 18 15 12 9 6"></polyline>
-                        </svg>
-                    </button>
-                </div>
+        <!-- Trending TV Series -->
+        <div class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">Trending TV Series</h2>
             </div>
+            <div class="slider-container">
+                <button class="slider-btn slider-btn-left" data-slider="trendingSeries">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <div id="trendingSeries" class="content-slider"></div>
+                <button class="slider-btn slider-btn-right" data-slider="trendingSeries">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </div>
 
-            <!-- Top Movies in Your Area -->
-            <div class="content-section">
-                <div class="section-header">
-                    <h2 class="section-title" id="regionalTitle">Top Movies in Your Area</h2>
-                </div>
-                <div class="slider-container">
-                    <button class="slider-btn slider-btn-left" data-slider="regionalMovies">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="15 18 9 12 15 6"></polyline>
-                        </svg>
-                    </button>
-                    <div id="regionalMovies" class="content-slider"></div>
-                    <button class="slider-btn slider-btn-right" data-slider="regionalMovies">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="9 18 15 12 9 6"></polyline>
-                        </svg>
-                    </button>
-                </div>
+        <!-- Top Movies in Your Area -->
+        <div class="content-section">
+            <div class="section-header">
+                <h2 class="section-title" id="regionalTitle">Top Movies in Your Area</h2>
             </div>
+            <div class="slider-container">
+                <button class="slider-btn slider-btn-left" data-slider="regionalMovies">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <div id="regionalMovies" class="content-slider"></div>
+                <button class="slider-btn slider-btn-right" data-slider="regionalMovies">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </div>
 
-            <!-- Anime Section -->
-            <div class="content-section">
-                <div class="section-header">
-                    <h2 class="section-title">Popular Anime</h2>
-                </div>
-                <div class="slider-container">
-                    <button class="slider-btn slider-btn-left" data-slider="animeContent">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="15 18 9 12 15 6"></polyline>
-                        </svg>
-                    </button>
-                    <div id="animeContent" class="content-slider"></div>
-                    <button class="slider-btn slider-btn-right" data-slider="animeContent">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="9 18 15 12 9 6"></polyline>
-                        </svg>
-                    </button>
-                </div>
+        <!-- Anime Section -->
+        <div class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">Popular Anime</h2>
             </div>
+            <div class="slider-container">
+                <button class="slider-btn slider-btn-left" data-slider="animeContent">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <div id="animeContent" class="content-slider"></div>
+                <button class="slider-btn slider-btn-right" data-slider="animeContent">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </div>
 
-            <!-- Hollywood Section -->
-            <div class="content-section">
-                <div class="section-header">
-                    <h2 class="section-title">Hollywood Blockbusters</h2>
-                </div>
-                <div class="slider-container">
-                    <button class="slider-btn slider-btn-left" data-slider="hollywoodContent">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="15 18 9 12 15 6"></polyline>
-                        </svg>
-                    </button>
-                    <div id="hollywoodContent" class="content-slider"></div>
-                    <button class="slider-btn slider-btn-right" data-slider="hollywoodContent">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="9 18 15 12 9 6"></polyline>
-                        </svg>
-                    </button>
-                </div>
+        <!-- Hollywood Section -->
+        <div class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">Hollywood Blockbusters</h2>
             </div>
+            <div class="slider-container">
+                <button class="slider-btn slider-btn-left" data-slider="hollywoodContent">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <div id="hollywoodContent" class="content-slider"></div>
+                <button class="slider-btn slider-btn-right" data-slider="hollywoodContent">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </div>
 
-            <!-- Bollywood Section -->
-            <div class="content-section">
-                <div class="section-header">
-                    <h2 class="section-title">Bollywood Movies</h2>
-                </div>
-                <div class="slider-container">
-                    <button class="slider-btn slider-btn-left" data-slider="bollywoodContent">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="15 18 9 12 15 6"></polyline>
-                        </svg>
-                    </button>
-                    <div id="bollywoodContent" class="content-slider"></div>
-                    <button class="slider-btn slider-btn-right" data-slider="bollywoodContent">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="9 18 15 12 9 6"></polyline>
-                        </svg>
-                    </button>
-                </div>
+        <!-- Bollywood Section -->
+        <div class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">Bollywood Movies</h2>
             </div>
+            <div class="slider-container">
+                <button class="slider-btn slider-btn-left" data-slider="bollywoodContent">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <div id="bollywoodContent" class="content-slider"></div>
+                <button class="slider-btn slider-btn-right" data-slider="bollywoodContent">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </div>
 
-            <!-- Tollywood Section -->
-            <div class="content-section">
-                <div class="section-header">
-                    <h2 class="section-title">Tollywood Movies</h2>
-                </div>
-                <div class="slider-container">
-                    <button class="slider-btn slider-btn-left" data-slider="tollywoodContent">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="15 18 9 12 15 6"></polyline>
-                        </svg>
-                    </button>
-                    <div id="tollywoodContent" class="content-slider"></div>
-                    <button class="slider-btn slider-btn-right" data-slider="tollywoodContent">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="9 18 15 12 9 6"></polyline>
-                        </svg>
-                    </button>
-                </div>
+        <!-- Tollywood Section -->
+        <div class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">Tollywood Movies</h2>
             </div>
-        </section>
-
-        <!-- Search Section -->
-        <section id="searchSection" class="section">
-            <div class="search-results-container">
-                <h2 class="section-title">Search Results</h2>
-                <div id="searchResults" class="content-grid"></div>
+            <div class="slider-container">
+                <button class="slider-btn slider-btn-left" data-slider="tollywoodContent">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <div id="tollywoodContent" class="content-slider"></div>
+                <button class="slider-btn slider-btn-right" data-slider="tollywoodContent">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
             </div>
-        </section>
+        </div>
     </main>
 
     <!-- Movie/Series Detail Modal -->
@@ -199,7 +184,7 @@
                 <iframe id="videoPlayer" allowfullscreen></iframe>
             </div>
             <div class="player-controls">
-                <!-- TV Show Season/Episode Selector (hidden for movies) -->
+                <!-- TV Show Season/Episode Selector -->
                 <div id="tvControls" class="tv-controls" style="display: none;">
                     <div class="control-group">
                         <label>Season:</label>
@@ -239,16 +224,15 @@
                 <a href="#terms">Terms & Conditions</a>
             </div>
             <p class="footer-copyright">&copy; 2025 Equanta. All rights reserved.</p>
-            <p class="footer-disclaimer">This is an educational project. All content belongs to their respective owners.</p>
+            <p class="footer-disclaimer">Educational project. All content belongs to respective owners.</p>
         </div>
     </footer>
 
     <!-- Scripts -->
-    <script src="config.js"></script>
-    <script src="api.js"></script>
-    <script src="ui.js"></script>
-    <script src="player.js"></script>
-    <script src="router.js"></script>
-    <script src="app.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>

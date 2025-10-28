@@ -1,4 +1,3 @@
-// TMDb API Manager
 class TMDbAPI {
     constructor() {
         this.config = null;
@@ -10,10 +9,7 @@ class TMDbAPI {
 
     async initialize() {
         this.config = window.getConfig();
-        if (!this.config) {
-            console.error('Config not loaded');
-            return false;
-        }
+        if (!this.config) return false;
 
         this.baseURL = this.config.tmdb_base_url;
         this.imageBase = this.config.tmdb_image_base;
@@ -28,9 +24,8 @@ class TMDbAPI {
             const response = await fetch(this.config.geolocation_api);
             const data = await response.json();
             this.userCountry = data.country_code || 'US';
-            console.log('✓ User country:', this.userCountry);
+            console.log('✓ Location:', this.userCountry);
         } catch (error) {
-            console.error('Location detection error:', error);
             this.userCountry = 'US';
         }
     }
@@ -40,19 +35,15 @@ class TMDbAPI {
         url.searchParams.append('api_key', this.apiKey);
 
         Object.keys(params).forEach(key => {
-            if (params[key]) {
-                url.searchParams.append(key, params[key]);
-            }
+            if (params[key]) url.searchParams.append(key, params[key]);
         });
 
         try {
             const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
             return await response.json();
         } catch (error) {
-            console.error('API fetch error:', error);
+            console.error('API error:', error);
             return null;
         }
     }
@@ -62,12 +53,10 @@ class TMDbAPI {
         return `${this.imageBase}/${size}${path}`;
     }
 
-    // Trending
     async getTrending(mediaType = 'movie', timeWindow = 'week') {
         return await this.fetchData(`/trending/${mediaType}/${timeWindow}`);
     }
 
-    // Discover
     async discoverMovies(params = {}) {
         return await this.fetchData('/discover/movie', params);
     }
@@ -76,7 +65,6 @@ class TMDbAPI {
         return await this.fetchData('/discover/tv', params);
     }
 
-    // Regional
     async getRegionalMovies() {
         return await this.discoverMovies({
             region: this.userCountry,
@@ -85,7 +73,6 @@ class TMDbAPI {
         });
     }
 
-    // Anime
     async getAnime() {
         return await this.discoverTV({
             with_genres: this.config.genre_mappings.anime,
@@ -94,7 +81,6 @@ class TMDbAPI {
         });
     }
 
-    // Hollywood
     async getHollywood() {
         return await this.discoverMovies({
             with_original_language: 'en',
@@ -103,7 +89,6 @@ class TMDbAPI {
         });
     }
 
-    // Bollywood
     async getBollywood() {
         return await this.discoverMovies({
             with_original_language: 'hi',
@@ -112,7 +97,6 @@ class TMDbAPI {
         });
     }
 
-    // Tollywood
     async getTollywood() {
         return await this.discoverMovies({
             with_original_language: 'te',
@@ -121,30 +105,24 @@ class TMDbAPI {
         });
     }
 
-    // Details
     async getMovieDetails(id) {
         return await this.fetchData(`/movie/${id}`, {
-            append_to_response: 'credits,videos,similar'
+            append_to_response: 'credits,videos'
         });
     }
 
     async getTVDetails(id) {
         return await this.fetchData(`/tv/${id}`, {
-            append_to_response: 'credits,videos,similar'
+            append_to_response: 'credits,videos'
         });
     }
 
-    // TV Show Season Details
     async getTVSeasonDetails(tvId, seasonNumber) {
         return await this.fetchData(`/tv/${tvId}/season/${seasonNumber}`);
     }
 
-    // Search (with debounce for real-time)
     async search(query, page = 1) {
-        return await this.fetchData('/search/multi', {
-            query: query,
-            page: page
-        });
+        return await this.fetchData('/search/multi', { query, page });
     }
 }
 
