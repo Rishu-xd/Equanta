@@ -3,118 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Netflix Clone - Movies &amp; TV Shows</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Equanta - Stream Movies & TV Shows</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/responsive.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Header Navigation -->
-    <header class="header" id="header">
-        <div class="header-content">
-            <div class="header-left">
-                <div class="logo">Equanta</div>
-                <nav class="nav-links">
-                    <a href="#" class="nav-link active" data-section="home">Home</a>
-                    <a href="#" class="nav-link" data-section="movies">Movies</a>
-                    <a href="#" class="nav-link" data-section="tv">TV Shows</a>
-                    <a href="#" class="nav-link" data-section="trending">Trending</a>
-                </nav>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h1>EQUANTA</h1>
             </div>
-            <div class="header-right">
-                <div class="search-container">
-                    <button class="search-toggle" id="searchToggle">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <path d="M21 21l-4.35-4.35"></path>
-                        </svg>
-                    </button>
-                    <div class="search-box" id="searchBox">
-                        <input type="text" id="searchInput" placeholder="Search movies, TV shows..." autocomplete="off">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Hero Banner Section -->
-    <section class="hero" id="heroBanner">
-        <div class="hero-content">
-            <h1 class="hero-title" id="heroTitle">Loading...</h1>
-            <p class="hero-overview" id="heroOverview"></p>
-            <div class="hero-buttons">
-                <button class="btn btn-play" id="heroPlay">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M8 5v14l11-7z"/>
+            <div class="nav-search">
+                <input type="text" id="searchInput" placeholder="Search movies, series, anime...">
+                <button id="searchBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
                     </svg>
-                    Play
-                </button>
-                <button class="btn btn-info" id="heroInfo">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="12" y1="16" x2="12" y2="12"></line>
-                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                    </svg>
-                    More Info
                 </button>
             </div>
+            <div class="nav-menu">
+                <a href="#home" class="nav-link active" data-section="home">Home</a>
+                <a href="#search" class="nav-link" data-section="search">Search</a>
+            </div>
         </div>
-        <div class="hero-fade"></div>
-    </section>
+    </nav>
 
-    <!-- Search Results Section -->
-    <section class="search-results" id="searchResults" style="display: none;">
-        <div class="content-container">
-            <h2 class="search-results-title">Search Results</h2>
-            <div class="search-results-grid" id="searchResultsGrid"></div>
-        </div>
-    </section>
+    <!-- Main Content -->
+    <main id="mainContent">
+        <!-- Home Section -->
+        <section id="homeSection" class="section active">
+            <!-- Hero Banner -->
+            <div id="heroBanner" class="hero-banner"></div>
 
-    <!-- Main Content Rows -->
-    <main class="main-content" id="mainContent">
-        <div class="content-container">
-            <!-- Content rows will be dynamically inserted here -->
-        </div>
+            <!-- Trending Movies -->
+            <div class="content-section">
+                <h2 class="section-title">Trending Movies</h2>
+                <div id="trendingMovies" class="content-grid"></div>
+            </div>
+
+            <!-- Trending TV Series -->
+            <div class="content-section">
+                <h2 class="section-title">Trending TV Series</h2>
+                <div id="trendingSeries" class="content-grid"></div>
+            </div>
+
+            <!-- Top Movies in Your Area -->
+            <div class="content-section">
+                <h2 class="section-title" id="regionalTitle">Top Movies in Your Area</h2>
+                <div id="regionalMovies" class="content-grid"></div>
+            </div>
+
+            <!-- Anime Section -->
+            <div class="content-section">
+                <h2 class="section-title">Popular Anime</h2>
+                <div id="animeContent" class="content-grid"></div>
+            </div>
+
+            <!-- Hollywood Section -->
+            <div class="content-section">
+                <h2 class="section-title">Hollywood Blockbusters</h2>
+                <div id="hollywoodContent" class="content-grid"></div>
+            </div>
+
+            <!-- Bollywood Section -->
+            <div class="content-section">
+                <h2 class="section-title">Bollywood Movies</h2>
+                <div id="bollywoodContent" class="content-grid"></div>
+            </div>
+
+            <!-- Tollywood Section -->
+            <div class="content-section">
+                <h2 class="section-title">Tollywood Movies</h2>
+                <div id="tollywoodContent" class="content-grid"></div>
+            </div>
+        </section>
+
+        <!-- Search Section -->
+        <section id="searchSection" class="section">
+            <div class="search-results-container">
+                <h2 class="section-title">Search Results</h2>
+                <div id="searchResults" class="content-grid"></div>
+            </div>
+        </section>
     </main>
 
-    <!-- Loading Spinner -->
-    <div class="loading-spinner" id="loadingSpinner">
-        <div class="spinner"></div>
+    <!-- Movie/Series Detail Modal -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeModal">&times;</button>
+            <div id="detailContent"></div>
+        </div>
     </div>
 
-    <!-- Detail Modal -->
-    <div class="modal" id="detailModal">
-        <div class="modal-overlay" id="modalOverlay"></div>
-        <div class="modal-content" id="modalContent">
-            <button class="modal-close" id="modalClose">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-            </button>
-            <div class="modal-body" id="modalBody">
-                <!-- Modal content will be dynamically inserted -->
+    <!-- Video Player Modal -->
+    <div id="playerModal" class="player-modal">
+        <div class="player-container">
+            <button class="player-close" id="closePlayer">&times;</button>
+            <div class="player-wrapper">
+                <iframe id="videoPlayer" allowfullscreen></iframe>
+            </div>
+            <div class="player-controls">
+                <div class="server-selector">
+                    <label>Select Server:</label>
+                    <select id="serverSelect"></select>
+                </div>
+                <button id="downloadBtn" class="download-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Download
+                </button>
             </div>
         </div>
     </div>
 
     <!-- Footer -->
-    <footer class="app-footer">
-        <div class="footer-inner">
-            <p class="footer-line">
-                <a href="#privacy" target="_blank">Privacy Policy</a> • 
-                <a href="#terms" target="_blank">Terms &amp; Conditions</a> • 
-                <a href="https://github.com/Rishu-xd/Equanta" target="_blank">Source Code</a> • 
-                <a href="#contact" target="_blank">Contact</a>
-            </p>
-            <p class="footer-line">&copy; 2025 Equanta</p>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#source">Source Code</a>
+                <a href="#privacy">Privacy Policy</a>
+                <a href="#terms">Terms & Conditions</a>
+            </div>
+            <p class="footer-copyright">&copy; 2025 Equanta. All rights reserved.</p>
+            <p class="footer-disclaimer">This is an educational project. All content belongs to their respective owners.</p>
         </div>
     </footer>
 
-    <!-- JavaScript Files -->
-    <script src="api.js"></script>
-    <script src="ui.js"></script>
-    <script src="player.js"></script>
-    <script src="modal.js"></script>
-    <script src="search.js"></script>
-    <script src="main.js"></script>
+    <!-- Scripts -->
+    <script src="config.json" type="application/json"></script>
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/router.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>

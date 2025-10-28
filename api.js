@@ -1,225 +1,149 @@
-/**
- * TMDB API Integration Module
- * Handles all API calls to The Movie Database
- */
+// TMDb API Manager
+class TMDbAPI {
+    constructor() {
+        this.config = null;
+        this.baseURL = '';
+        this.imageBase = '';
+        this.apiKey = '';
+        this.userCountry = 'US';
+    }
 
-const API = (() => {
-    // TMDB API Configuration
-    const API_KEY = '4ec93c7a7f3e73cc8553919a8d8e5c49'; // From Equanta GitHub repo
-    const BASE_URL = 'https://api.themoviedb.org/3';
-    const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/';
-    
-    // Image size configurations
-    const IMAGE_SIZES = {
-        poster: 'w500',
-        backdrop: 'original',
-        profile: 'w185'
-    };
-    
-    /**
-     * Generic fetch function with error handling
-     */
-    async function fetchFromAPI(endpoint) {
+    async initialize() {
+        this.config = window.getConfig();
+        if (!this.config) {
+            console.error('Config not loaded');
+            return false;
+        }
+
+        this.baseURL = this.config.tmdb_base_url;
+        this.imageBase = this.config.tmdb_image_base;
+        this.apiKey = this.config.tmdb_api_key;
+
+        // Detect user location
+        await this.detectLocation();
+
+        return true;
+    }
+
+    async detectLocation() {
         try {
-            const response = await fetch(`${BASE_URL}${endpoint}`);
+            const response = await fetch(this.config.geolocation_api);
+            const data = await response.json();
+            this.userCountry = data.country_code || 'US';
+            console.log('User country detected:', this.userCountry);
+        } catch (error) {
+            console.error('Error detecting location:', error);
+            this.userCountry = 'US';
+        }
+    }
+
+    async fetchData(endpoint, params = {}) {
+        const url = new URL(`${this.baseURL}${endpoint}`);
+        url.searchParams.append('api_key', this.apiKey);
+
+        Object.keys(params).forEach(key => {
+            if (params[key]) {
+                url.searchParams.append(key, params[key]);
+            }
+        });
+
+        try {
+            const response = await fetch(url);
             if (!response.ok) {
-                throw new Error(`API Error: ${response.status}`);
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
             return await response.json();
         } catch (error) {
-            console.error('API Fetch Error:', error);
+            console.error('API fetch error:', error);
             return null;
         }
     }
-    
-    /**
-     * Get image URL with proper size
-     */
-    function getImageURL(path, type = 'poster') {
-        if (!path) return null;
-        return `${IMAGE_BASE_URL}${IMAGE_SIZES[type]}${path}`;
+
+    getImageURL(path, size = 'w500') {
+        if (!path) return 'https://via.placeholder.com/500x750?text=No+Image';
+        return `${this.imageBase}/${size}${path}`;
     }
-    
-    /**
-     * Fetch trending movies for the week
-     */
-    async function getTrendingMovies() {
-        return await fetchFromAPI(`/trending/movie/week?api_key=${API_KEY}`);
+
+    // Trending
+    async getTrending(mediaType = 'movie', timeWindow = 'week') {
+        return await this.fetchData(`/trending/${mediaType}/${timeWindow}`);
     }
-    
-    /**
-     * Fetch trending TV shows for the week
-     */
-    async function getTrendingTV() {
-        return await fetchFromAPI(`/trending/tv/week?api_key=${API_KEY}`);
+
+    // Discover
+    async discoverMovies(params = {}) {
+        return await this.fetchData('/discover/movie', params);
     }
-    
-    /**
-     * Fetch popular movies
-     */
-    async function getPopularMovies(page = 1) {
-        return await fetchFromAPI(`/movie/popular?api_key=${API_KEY}&page=${page}`);
+
+    async discoverTV(params = {}) {
+        return await this.fetchData('/discover/tv', params);
     }
-    
-    /**
-     * Fetch popular TV shows
-     */
-    async function getPopularTV(page = 1) {
-        return await fetchFromAPI(`/tv/popular?api_key=${API_KEY}&page=${page}`);
+
+    // Regional
+    async getRegionalMovies() {
+        return await this.discoverMovies({
+            region: this.userCountry,
+            sort_by: 'popularity.desc',
+            page: 1
+        });
     }
-    
-    /**
-     * Fetch top rated movies
-     */
-    async function getTopRatedMovies(page = 1) {
-        return await fetchFromAPI(`/movie/top_rated?api_key=${API_KEY}&page=${page}`);
+
+    // Anime (Animation genre)
+    async getAnime() {
+        return await this.discoverTV({
+            with_genres: this.config.genre_mappings.anime,
+            with_original_language: 'ja',
+            sort_by: 'popularity.desc'
+        });
     }
-    
-    /**
-     * Fetch top rated TV shows
-     */
-    async function getTopRatedTV(page = 1) {
-        return await fetchFromAPI(`/tv/top_rated?api_key=${API_KEY}&page=${page}`);
+
+    // Hollywood
+    async getHollywood() {
+        return await this.discoverMovies({
+            with_original_language: 'en',
+            region: 'US',
+            sort_by: 'popularity.desc'
+        });
     }
-    
-    /**
-     * Fetch movies by genre
-     */
-    async function getMoviesByGenre(genreId, page = 1) {
-        return await fetchFromAPI(`/discover/movie?api_key=${API_KEY}&with_genres=${genreId}&page=${page}`);
+
+    // Bollywood
+    async getBollywood() {
+        return await this.discoverMovies({
+            with_original_language: 'hi',
+            region: 'IN',
+            sort_by: 'popularity.desc'
+        });
     }
-    
-    /**
-     * Fetch TV shows by genre
-     */
-    async function getTVByGenre(genreId, page = 1) {
-        return await fetchFromAPI(`/discover/tv?api_key=${API_KEY}&with_genres=${genreId}&page=${page}`);
+
+    // Tollywood
+    async getTollywood() {
+        return await this.discoverMovies({
+            with_original_language: 'te',
+            region: 'IN',
+            sort_by: 'popularity.desc'
+        });
     }
-    
-    /**
-     * Search for movies and TV shows
-     */
-    async function searchMulti(query, page = 1) {
-        if (!query) return null;
-        const encodedQuery = encodeURIComponent(query);
-        return await fetchFromAPI(`/search/multi?api_key=${API_KEY}&query=${encodedQuery}&page=${page}`);
+
+    // Details
+    async getMovieDetails(id) {
+        return await this.fetchData(`/movie/${id}`, {
+            append_to_response: 'credits,videos,similar'
+        });
     }
-    
-    /**
-     * Get detailed movie information
-     */
-    async function getMovieDetails(movieId) {
-        return await fetchFromAPI(`/movie/${movieId}?api_key=${API_KEY}&append_to_response=credits,videos,images,similar`);
+
+    async getTVDetails(id) {
+        return await this.fetchData(`/tv/${id}`, {
+            append_to_response: 'credits,videos,similar'
+        });
     }
-    
-    /**
-     * Get detailed TV show information
-     */
-    async function getTVDetails(tvId) {
-        return await fetchFromAPI(`/tv/${tvId}?api_key=${API_KEY}&append_to_response=credits,videos,images,similar`);
+
+    // Search
+    async search(query, page = 1) {
+        return await this.fetchData('/search/multi', {
+            query: query,
+            page: page
+        });
     }
-    
-    /**
-     * Get movie genres list
-     */
-    async function getMovieGenres() {
-        return await fetchFromAPI(`/genre/movie/list?api_key=${API_KEY}`);
-    }
-    
-    /**
-     * Get TV genres list
-     */
-    async function getTVGenres() {
-        return await fetchFromAPI(`/genre/tv/list?api_key=${API_KEY}`);
-    }
-    
-    /**
-     * Detect user's region using IP geolocation
-     */
-    async function detectUserRegion() {
-        try {
-            const response = await fetch('https://ipapi.co/json/');
-            if (!response.ok) throw new Error('Region detection failed');
-            const data = await response.json();
-            return data.country_code || 'US';
-        } catch (error) {
-            console.error('Region detection error:', error);
-            return 'US'; // Default fallback
-        }
-    }
-    
-    /**
-     * Get trending content in India
-     */
-    async function getTrendingInIndiaMovies(page = 1) {
-        return await fetchFromAPI(`/discover/movie?api_key=${API_KEY}&region=IN&sort_by=popularity.desc&watch_region=IN&with_watch_monetization_types=flatrate&page=${page}`);
-    }
-    
-    async function getTrendingInIndiaTV(page = 1) {
-        return await fetchFromAPI(`/discover/tv?api_key=${API_KEY}&region=IN&sort_by=popularity.desc&watch_region=IN&with_watch_monetization_types=flatrate&page=${page}`);
-    }
-    
-    /**
-     * Get Bollywood content
-     */
-    async function getBollywoodMovies(page = 1) {
-        return await fetchFromAPI(`/discover/movie?api_key=${API_KEY}&with_original_language=hi&sort_by=popularity.desc&page=${page}`);
-    }
-    
-    async function getBollywoodTV(page = 1) {
-        return await fetchFromAPI(`/discover/tv?api_key=${API_KEY}&with_original_language=hi&sort_by=popularity.desc&page=${page}`);
-    }
-    
-    /**
-     * Get Hollywood blockbusters
-     */
-    async function getHollywoodBlockbusters(page = 1) {
-        return await fetchFromAPI(`/discover/movie?api_key=${API_KEY}&with_original_language=en&sort_by=revenue.desc&page=${page}`);
-    }
-    
-    /**
-     * Get Anime content
-     */
-    async function getAnimeMovies(page = 1) {
-        return await fetchFromAPI(`/discover/movie?api_key=${API_KEY}&with_genres=16&with_original_language=ja&sort_by=popularity.desc&page=${page}`);
-    }
-    
-    async function getAnimeSeries(page = 1) {
-        return await fetchFromAPI(`/discover/tv?api_key=${API_KEY}&with_genres=16&with_original_language=ja&sort_by=popularity.desc&page=${page}`);
-    }
-    
-    /**
-     * Get TV season details (for episodes)
-     */
-    async function getTVSeasonDetails(tvId, seasonNumber) {
-        return await fetchFromAPI(`/tv/${tvId}/season/${seasonNumber}?api_key=${API_KEY}`);
-    }
-    
-    // Public API
-    return {
-        getImageURL,
-        getTrendingMovies,
-        getTrendingTV,
-        getPopularMovies,
-        getPopularTV,
-        getTopRatedMovies,
-        getTopRatedTV,
-        getMoviesByGenre,
-        getTVByGenre,
-        searchMulti,
-        getMovieDetails,
-        getTVDetails,
-        getMovieGenres,
-        getTVGenres,
-        detectUserRegion,
-        getTrendingInIndiaMovies,
-        getTrendingInIndiaTV,
-        getBollywoodMovies,
-        getBollywoodTV,
-        getHollywoodBlockbusters,
-        getAnimeMovies,
-        getAnimeSeries,
-        getTVSeasonDetails,
-        API_KEY
-    };
-})();
+}
+
+// Create global instance
+window.tmdbAPI = new TMDbAPI();
