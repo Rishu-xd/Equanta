@@ -12,9 +12,9 @@
     },
     {
       "id": 2,
-      "name": "Server 2 - zxczxc",
-      "movie_url": "https://zxczxc-pi.vercel.app/player/movie/",
-      "tv_url": "https://zxczxc-pi.vercel.app/player/tv/",
+      "name": "Server 2 - mappleTv",
+      "movie_url": "https://mappletv.uk/watch/movie/",
+      "tv_url": "https://mappletv.uk/watch/tv/",
       "tv_format": "{url}{tmdb_id}/{season}/{episode}"
     },
     {
