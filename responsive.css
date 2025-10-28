@@ -41,7 +41,7 @@
 @media (max-width: 480px) {
     .nav-logo h1 { font-size: 1.2rem; }
     .nav-search input { font-size: 0.85rem; padding: 0.6rem 0.8rem; }
-    .hero-banner { height: 40vh; margin-top: 150px; margin-left:68px}
+    .hero-banner { height: 40vh; margin-top: 150px; }
     .hero-content h1 { font-size: 1.5rem; }
     .hero-content p { font-size: 0.9rem;  display:none;}
     .content-card { width: 120px; }
