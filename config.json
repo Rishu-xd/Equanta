@@ -12,9 +12,9 @@
     },
     {
       "id": 2,
-      "name": "Server 2 - VidSrc.me",
-      "movie_url": "https://vidsrc.me/embed/movie/",
-      "tv_url": "https://vidsrc.me/embed/tv/",
+      "name": "Server 2 - zxczxc",
+      "movie_url": "https://zxczxc-pi.vercel.app/player/movie/",
+      "tv_url": "https://zxczxc-pi.vercel.app/player/tv/",
       "tv_format": "{url}{tmdb_id}/{season}/{episode}"
     },
     {
