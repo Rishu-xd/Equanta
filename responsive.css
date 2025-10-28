@@ -43,7 +43,7 @@
     .nav-search input { font-size: 0.85rem; padding: 0.6rem 0.8rem; }
     .hero-banner { height: 40vh; margin-top: 150px; }
     .hero-content h1 { font-size: 1.5rem; }
-    .hero-content p { font-size: 0.9rem; }
+    .hero-content p { font-size: 0.9rem;  display:none;}
     .content-card { width: 120px; }
     .content-card img { height: 180px; }
     .section-title { font-size: 1.1rem; }
