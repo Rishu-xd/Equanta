@@ -14,7 +14,7 @@
     .nav-search { width: 100%; max-width: 100%; }
     .hero-banner { height: 50vh; padding: 1.5rem; margin-top: 140px; }
     .hero-content h1 { font-size: 2rem; }
-    .hero-content p { font-size: 1rem; }
+    .hero-content p { font-size: 1rem; display:none;}
     .hero-buttons { flex-direction: column; }
     .btn { width: 100%; justify-content: center; }
     .content-section { padding: 1rem; }
