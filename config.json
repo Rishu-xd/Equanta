@@ -26,9 +26,9 @@
     },
     {
       "id": 4,
-      "name": "Server 4 - SuperEmbed",
-      "movie_url": "https://www.superembed.stream/embed/",
-      "tv_url": "https://www.superembed.stream/embed/",
+      "name": "Server 4 - autoEmbed",
+      "movie_url": "https://player.autoembed.cc/embed/movie/",
+      "tv_url": "https://player.autoembed.cc/embed/tv/",
       "tv_format": "{url}{tmdb_id}/{season}/{episode}"
     },
     {
