@@ -5,7 +5,7 @@ async function loadConfig() {
     try {
         const response = await fetch('config.json');
         CONFIG = await response.json();
-        console.log('Configuration loaded successfully');
+        console.log('✓ Configuration loaded');
         return CONFIG;
     } catch (error) {
         console.error('Error loading configuration:', error);
@@ -14,6 +14,5 @@ async function loadConfig() {
     }
 }
 
-// Export for use in other modules
 window.loadConfig = loadConfig;
 window.getConfig = () => CONFIG;

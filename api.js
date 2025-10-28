@@ -19,9 +19,7 @@ class TMDbAPI {
         this.imageBase = this.config.tmdb_image_base;
         this.apiKey = this.config.tmdb_api_key;
 
-        // Detect user location
         await this.detectLocation();
-
         return true;
     }
 
@@ -30,9 +28,9 @@ class TMDbAPI {
             const response = await fetch(this.config.geolocation_api);
             const data = await response.json();
             this.userCountry = data.country_code || 'US';
-            console.log('User country detected:', this.userCountry);
+            console.log('✓ User country:', this.userCountry);
         } catch (error) {
-            console.error('Error detecting location:', error);
+            console.error('Location detection error:', error);
             this.userCountry = 'US';
         }
     }
@@ -60,7 +58,7 @@ class TMDbAPI {
     }
 
     getImageURL(path, size = 'w500') {
-        if (!path) return 'https://via.placeholder.com/500x750?text=No+Image';
+        if (!path) return 'https://via.placeholder.com/500x750/141414/ffffff?text=No+Image';
         return `${this.imageBase}/${size}${path}`;
     }
 
@@ -87,7 +85,7 @@ class TMDbAPI {
         });
     }
 
-    // Anime (Animation genre)
+    // Anime
     async getAnime() {
         return await this.discoverTV({
             with_genres: this.config.genre_mappings.anime,
@@ -136,7 +134,12 @@ class TMDbAPI {
         });
     }
 
-    // Search
+    // TV Show Season Details
+    async getTVSeasonDetails(tvId, seasonNumber) {
+        return await this.fetchData(`/tv/${tvId}/season/${seasonNumber}`);
+    }
+
+    // Search (with debounce for real-time)
     async search(query, page = 1) {
         return await this.fetchData('/search/multi', {
             query: query,
@@ -145,5 +148,4 @@ class TMDbAPI {
     }
 }
 
-// Create global instance
 window.tmdbAPI = new TMDbAPI();
