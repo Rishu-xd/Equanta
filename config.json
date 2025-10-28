@@ -5,9 +5,9 @@
   "servers": [
     {
       "id": 1,
-      "name": "Server 1 - VidSrc",
-      "movie_url": "https://vidsrc.xyz/embed/movie/",
-      "tv_url": "https://vidsrc.xyz/embed/tv/",
+      "name": "Server 1 - Indiraembed",
+      "movie_url": "https://indraembed.netlify.app/movie/",
+      "tv_url": "https://indraembed.netlify.app/tv/",
       "tv_format": "{url}{tmdb_id}/{season}/{episode}"
     },
     {
