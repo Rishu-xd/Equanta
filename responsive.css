@@ -1,7 +1,7 @@
 @media (max-width: 1024px) {
     .nav-container { padding: 0 1.5rem; }
-    .content-card { width: 180px; }
-    .content-card img { height: 270px; }
+    .content-card { width: 100%; }
+    .content-card img { height: 100%; }
     .hero-banner { height: 60vh; padding: 2rem; }
     .hero-content h1 { font-size: 2.5rem; }
     .section-title { font-size: 1.5rem; }
