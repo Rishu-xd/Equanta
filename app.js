@@ -59,11 +59,7 @@ class App {
             ui.renderSlider('animeContent', anime.results, 'tv');
         }
 
-// K-Drama
-const kDrama = await api.getKDrama();
-if (kDrama && kDrama.results) {
-    ui.renderSlider('kDramaContent', kDrama.results, 'tv');
-}
+
 
         // Hollywood
         const hollywood = await api.getHollywood();
