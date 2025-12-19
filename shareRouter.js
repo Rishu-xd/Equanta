@@ -23,7 +23,7 @@
       this.setupShareButton();
 
       // Listen for manual URL changes (back/forward buttons)
-      window.addEventListener('popstate', () => {
+      window.addEventListener('hashchange', () => {
         this.handleInitialURL();
       });
 
