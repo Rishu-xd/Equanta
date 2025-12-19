@@ -94,18 +94,20 @@
      * @param {number} episode - Episode number (TV only)
      */
     updateURL(id, type, season = 1, episode = 1) {
-      let path;
+  let hash;
 
-      if (type === 'tv') {
-        // Ensure 2-digit padding: S05 E01
-        const sStr = String(season).padStart(2, '0');
-        const eStr = String(episode).padStart(2, '0');
-        const segment = `S${sStr} E${eStr}`;
-        path = `/${id}/${encodeURIComponent(segment)}/`;
-      } else {
-        // Movie: just ID
-        path = `/${id}/`;
-      }
+  if (type === 'tv') {
+    const sStr = String(season).padStart(2, '0');
+    const eStr = String(episode).padStart(2, '0');
+    const segment = `S${sStr} E${eStr}`;
+    hash = `#/${id}/${encodeURIComponent(segment)}`;
+  } else {
+    hash = `#/${id}`;
+  }
+
+  window.location.hash = hash;
+  console.log('[ShareRouter] Hash updated to:', hash);
+}
 
       const newUrl = window.location.origin + path;
 
