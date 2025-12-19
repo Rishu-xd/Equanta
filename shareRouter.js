@@ -35,56 +35,40 @@
      * Handles both movies (/123/) and TV episodes (/123/S05%20E01/)
      */
     handleInitialURL() {
-      const path = window.location.pathname.replace(/^\/+|\/+$/g, ''); // trim slashes
-      if (!path) {
-        console.log('[ShareRouter] No path in URL, staying on home');
-        return;
-      }
+    handleInitialURL() {
+  const raw = window.location.hash || '';
+  const hash = raw.replace(/^#/?/, ''); // remove leading # or #/
+  if (!hash) {
+    console.log('[ShareRouter] No hash, staying on home');
+    return;
+  }
 
-      const parts = path.split('/').filter(p => p);
-      const id = parseInt(parts[0], 10);
+  const parts = hash.split('/').filter(Boolean);
+  const id = parseInt(parts[0], 10);
+  if (!id || Number.isNaN(id)) {
+    console.warn('[ShareRouter] Invalid ID in hash:', parts[0]);
+    return;
+  }
 
-      if (!id || Number.isNaN(id)) {
-        console.warn('[ShareRouter] Invalid ID in URL:', parts[0]);
-        return;
-      }
-
-      if (parts.length === 1) {
-        // Movie format: /12345/
-        console.log('[ShareRouter] Opening movie:', id);
-        if (window.playerManager) {
-          window.playerManager.openPlayer(id, 'movie');
-        } else {
-          console.warn('[ShareRouter] playerManager not found');
-        }
-      } else if (parts.length >= 2) {
-        // TV format: /12345/S05%20E01/
-        const decoded = decodeURIComponent(parts[1]);
-        const match = decoded.match(/^S(\d{2})\sE(\d{2})$/i);
-
-        let season = 1,
-          episode = 1;
-        if (match) {
-          season = parseInt(match[1], 10);
-          episode = parseInt(match[2], 10);
-        }
-
-        console.log(
-          '[ShareRouter] Opening TV show:',
-          id,
-          `S${season}E${episode}`
-        );
-
-        if (window.playerManager) {
-          window.playerManager.openPlayer(id, 'tv', {
-            season,
-            episode
-          });
-        } else {
-          console.warn('[ShareRouter] playerManager not found');
-        }
-      }
-    },
+  if (parts.length === 1) {
+    // Movie: #/12345
+    if (window.playerManager) {
+      window.playerManager.openPlayer(id, 'movie');
+    }
+  } else {
+    // TV: #/12345/S05%20E01
+    const decoded = decodeURIComponent(parts[1]); // "S05 E01"
+    const match = decoded.match(/^S(d{2})sE(d{2})$/i);
+    let season = 1, episode = 1;
+    if (match) {
+      season = parseInt(match[1], 10);
+      episode = parseInt(match[2], 10);
+    }
+    if (window.playerManager) {
+      window.playerManager.openPlayer(id, 'tv', { season, episode });
+    }
+  }
+}
 
     /**
      * Update browser URL when media/episode changes
