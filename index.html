@@ -203,6 +203,7 @@
                 <iframe id="videoPlayer" allowfullscreen></iframe>
             </div>
             <div class="player-controls">
+                
                 <!-- TV Show Season/Episode Selector -->
                 <div id="tvControls" class="tv-controls" style="display: none;">
                     <div class="control-group">
@@ -222,6 +223,9 @@
                 </div>
 
                 <!-- Download Button -->
+                <button id="shareBtn" class="btn btn-secondary" title="Share this link">
+  📤 Share
+</button>
                 <button id="downloadBtn" class="download-btn">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -253,5 +257,14 @@
     <script src="ui.js"></script>
     <script src="player.js"></script>
     <script src="app.js"></script>
+     <script src="shareRouter.js"></script>
+  <script src="player-updates.js"></script>
+     <!-- Initialize router on startup -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.ShareRouter) {
+        window.ShareRouter.init();
+      }
+    });
 </body>
 </html>
