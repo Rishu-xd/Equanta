@@ -160,8 +160,8 @@ class PlayerManager {
 
         btn.onclick = async () => {
             const url = this.currentType === 'tv'
-                ? `https://download-api-zeta.vercel.app/tv?id=${this.currentId}/${this.currentSeason || 1}/${this.currentEpisode || 1}`
-                : `https://download-api-zeta.vercel.app/movie?id=${this.currentId}`;
+                ? `https://02moviedownloader.xyz/api/download/tv/${this.currentId}/${this.currentSeason || 1}/${this.currentEpisode || 1}`
+                : `https://02moviedownloader.xyz/api/download/movie/${this.currentId}`;
 
             try {
                 const resp = await fetch(url, { mode: 'cors' });
