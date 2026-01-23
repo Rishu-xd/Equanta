@@ -119,6 +119,9 @@ const Modal = (() => {
                         </svg>
                         Download
                     </button>
+<div id="qualityBox" hidden>
+  <input type="range" min="0" max="2" step="1" value="1" id="qualitySlider">
+  <div id="qualityLabel">720p</div>
                 </div>
                 <!-- For TV Shows: Season/Episode selector -->
                 <div id="episode-selector" class="episode-selector" style="display:none;">
