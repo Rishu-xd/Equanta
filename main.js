@@ -4,7 +4,7 @@
  */
 
 (async function initApp() {
-    console.log('🎬 Netflix Clone - Initializing...');
+    console.log('🎬 Equnta - Initializing...');
     
     // Show loading spinner
     UI.showLoading();
